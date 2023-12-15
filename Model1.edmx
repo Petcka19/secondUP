@@ -1,0 +1,376 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище DBBOOKSModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Authors">
+          <Key>
+            <PropertyRef Name="Code_author" />
+          </Key>
+          <Property Name="Code_author" Type="int" Nullable="false" />
+          <Property Name="name_author" Type="nvarchar" MaxLength="30" />
+          <Property Name="Birthday" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="Code_book" />
+          </Key>
+          <Property Name="Code_book" Type="int" Nullable="false" />
+          <Property Name="Title_book" Type="nvarchar" MaxLength="40" />
+          <Property Name="Code_author" Type="int" />
+          <Property Name="Pages" Type="int" />
+          <Property Name="Code_publish" Type="int" />
+          <Property Name="image" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Deliveries">
+          <Key>
+            <PropertyRef Name="Code_delivery" />
+          </Key>
+          <Property Name="Code_delivery" Type="int" Nullable="false" />
+          <Property Name="Name_delivery" Type="nvarchar" MaxLength="30" />
+          <Property Name="Name_company" Type="nvarchar" MaxLength="20" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" />
+          <Property Name="Phone" Type="bigint" />
+          <Property Name="INN" Type="nvarchar" MaxLength="13" />
+        </EntityType>
+        <EntityType Name="Publishing_house">
+          <Key>
+            <PropertyRef Name="Code_publish" />
+          </Key>
+          <Property Name="Code_publish" Type="int" Nullable="false" />
+          <Property Name="Publish" Type="nvarchar" MaxLength="30" />
+          <Property Name="City" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Purchases">
+          <Key>
+            <PropertyRef Name="Code_purchase" />
+          </Key>
+          <Property Name="Code_purchase" Type="int" Nullable="false" />
+          <Property Name="Code_book" Type="int" />
+          <Property Name="Date_order" Type="smalldatetime" />
+          <Property Name="Code_delivery" Type="int" />
+          <Property Name="Type_purchase" Type="bit" />
+          <Property Name="Cost" Type="float" />
+          <Property Name="Amount" Type="int" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6013: Первичный ключ в таблице или представлении "DBBOOKS.dbo.TEMP" не определен, его не удалось вывести. Эта таблица или представление исключены. Чтобы использовать сущность, необходимо проверить схему, добавить правильные ключи и раскомментировать ее.
+        <EntityType Name="TEMP">
+          <Property Name="DateColumn" Type="datetime" />
+          <Property Name="LongIntColumn" Type="bigint" />
+          <Property Name="StringColumn" Type="nvarchar" MaxLength="100" />
+        </EntityType>-->
+        <Association Name="FK__Books__Code_auth__3B75D760">
+          <End Role="Authors" Type="Self.Authors" Multiplicity="0..1" />
+          <End Role="Books" Type="Self.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="Code_author" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="Code_author" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Books__Code_publ__3C69FB99">
+          <End Role="Publishing_house" Type="Self.Publishing_house" Multiplicity="0..1" />
+          <End Role="Books" Type="Self.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publishing_house">
+              <PropertyRef Name="Code_publish" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="Code_publish" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchases__Code___412EB0B6">
+          <End Role="Books" Type="Self.Books" Multiplicity="0..1" />
+          <End Role="Purchases" Type="Self.Purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Code_book" />
+            </Principal>
+            <Dependent Role="Purchases">
+              <PropertyRef Name="Code_book" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchases__Code___4222D4EF">
+          <End Role="Deliveries" Type="Self.Deliveries" Multiplicity="0..1" />
+          <End Role="Purchases" Type="Self.Purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deliveries">
+              <PropertyRef Name="Code_delivery" />
+            </Principal>
+            <Dependent Role="Purchases">
+              <PropertyRef Name="Code_delivery" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="avt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="Хранилище DBBOOKSModelContainer">
+          <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deliveries" EntityType="Self.Deliveries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Publishing_house" EntityType="Self.Publishing_house" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Purchases" EntityType="Self.Purchases" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Books__Code_auth__3B75D760" Association="Self.FK__Books__Code_auth__3B75D760">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Books__Code_publ__3C69FB99" Association="Self.FK__Books__Code_publ__3C69FB99">
+            <End Role="Publishing_house" EntitySet="Publishing_house" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchases__Code___412EB0B6" Association="Self.FK__Purchases__Code___412EB0B6">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="Purchases" EntitySet="Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchases__Code___4222D4EF" Association="Self.FK__Purchases__Code___4222D4EF">
+            <End Role="Deliveries" EntitySet="Deliveries" />
+            <End Role="Purchases" EntitySet="Purchases" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBBOOKSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Authors">
+          <Key>
+            <PropertyRef Name="Code_author" />
+          </Key>
+          <Property Name="Code_author" Type="Int32" Nullable="false" />
+          <Property Name="name_author" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Books" Relationship="Self.FK__Books__Code_auth__3B75D760" FromRole="Authors" ToRole="Books" />
+        </EntityType>
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="Code_book" />
+          </Key>
+          <Property Name="Code_book" Type="Int32" Nullable="false" />
+          <Property Name="Title_book" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Code_author" Type="Int32" />
+          <Property Name="Pages" Type="Int32" />
+          <Property Name="Code_publish" Type="Int32" />
+          <Property Name="image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Authors" Relationship="Self.FK__Books__Code_auth__3B75D760" FromRole="Books" ToRole="Authors" />
+          <NavigationProperty Name="Publishing_house" Relationship="Self.FK__Books__Code_publ__3C69FB99" FromRole="Books" ToRole="Publishing_house" />
+          <NavigationProperty Name="Purchases" Relationship="Self.FK__Purchases__Code___412EB0B6" FromRole="Books" ToRole="Purchases" />
+        </EntityType>
+        <EntityType Name="Deliveries">
+          <Key>
+            <PropertyRef Name="Code_delivery" />
+          </Key>
+          <Property Name="Code_delivery" Type="Int32" Nullable="false" />
+          <Property Name="Name_delivery" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Name_company" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="Int64" />
+          <Property Name="INN" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Purchases" Relationship="Self.FK__Purchases__Code___4222D4EF" FromRole="Deliveries" ToRole="Purchases" />
+        </EntityType>
+        <EntityType Name="Publishing_house">
+          <Key>
+            <PropertyRef Name="Code_publish" />
+          </Key>
+          <Property Name="Code_publish" Type="Int32" Nullable="false" />
+          <Property Name="Publish" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Books" Relationship="Self.FK__Books__Code_publ__3C69FB99" FromRole="Publishing_house" ToRole="Books" />
+        </EntityType>
+        <EntityType Name="Purchases">
+          <Key>
+            <PropertyRef Name="Code_purchase" />
+          </Key>
+          <Property Name="Code_purchase" Type="Int32" Nullable="false" />
+          <Property Name="Code_book" Type="Int32" />
+          <Property Name="Date_order" Type="DateTime" Precision="0" />
+          <Property Name="Code_delivery" Type="Int32" />
+          <Property Name="Type_purchase" Type="Boolean" />
+          <Property Name="Cost" Type="Double" />
+          <Property Name="Amount" Type="Int32" />
+          <NavigationProperty Name="Books" Relationship="Self.FK__Purchases__Code___412EB0B6" FromRole="Purchases" ToRole="Books" />
+          <NavigationProperty Name="Deliveries" Relationship="Self.FK__Purchases__Code___4222D4EF" FromRole="Purchases" ToRole="Deliveries" />
+        </EntityType>
+        <Association Name="FK__Books__Code_auth__3B75D760">
+          <End Role="Authors" Type="Self.Authors" Multiplicity="0..1" />
+          <End Role="Books" Type="Self.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="Code_author" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="Code_author" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Books__Code_publ__3C69FB99">
+          <End Role="Publishing_house" Type="Self.Publishing_house" Multiplicity="0..1" />
+          <End Role="Books" Type="Self.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publishing_house">
+              <PropertyRef Name="Code_publish" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="Code_publish" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchases__Code___412EB0B6">
+          <End Role="Books" Type="Self.Books" Multiplicity="0..1" />
+          <End Role="Purchases" Type="Self.Purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Code_book" />
+            </Principal>
+            <Dependent Role="Purchases">
+              <PropertyRef Name="Code_book" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchases__Code___4222D4EF">
+          <End Role="Deliveries" Type="Self.Deliveries" Multiplicity="0..1" />
+          <End Role="Purchases" Type="Self.Purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deliveries">
+              <PropertyRef Name="Code_delivery" />
+            </Principal>
+            <Dependent Role="Purchases">
+              <PropertyRef Name="Code_delivery" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBBOOKSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Authors" EntityType="Self.Authors" />
+          <EntitySet Name="Books" EntityType="Self.Books" />
+          <EntitySet Name="Deliveries" EntityType="Self.Deliveries" />
+          <EntitySet Name="Publishing_house" EntityType="Self.Publishing_house" />
+          <EntitySet Name="Purchases" EntityType="Self.Purchases" />
+          <AssociationSet Name="FK__Books__Code_auth__3B75D760" Association="Self.FK__Books__Code_auth__3B75D760">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Books__Code_publ__3C69FB99" Association="Self.FK__Books__Code_publ__3C69FB99">
+            <End Role="Publishing_house" EntitySet="Publishing_house" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchases__Code___412EB0B6" Association="Self.FK__Purchases__Code___412EB0B6">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="Purchases" EntitySet="Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchases__Code___4222D4EF" Association="Self.FK__Purchases__Code___4222D4EF">
+            <End Role="Deliveries" EntitySet="Deliveries" />
+            <End Role="Purchases" EntitySet="Purchases" />
+          </AssociationSet>
+          <FunctionImport Name="avt" ReturnType="Collection(DBBOOKSModel.avt_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="avt_Result">
+          <Property Type="String" Name="name_author" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Title_book" Nullable="true" MaxLength="40" />
+          <Property Type="Int32" Name="Pages" Nullable="true" />
+          <Property Type="String" Name="Publish" Nullable="true" MaxLength="30" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DBBOOKSModelContainer" CdmEntityContainer="DBBOOKSEntities">
+          <EntitySetMapping Name="Authors">
+            <EntityTypeMapping TypeName="DBBOOKSModel.Authors">
+              <MappingFragment StoreEntitySet="Authors">
+                <ScalarProperty Name="Code_author" ColumnName="Code_author" />
+                <ScalarProperty Name="name_author" ColumnName="name_author" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="DBBOOKSModel.Books">
+              <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="Code_book" ColumnName="Code_book" />
+                <ScalarProperty Name="Title_book" ColumnName="Title_book" />
+                <ScalarProperty Name="Code_author" ColumnName="Code_author" />
+                <ScalarProperty Name="Pages" ColumnName="Pages" />
+                <ScalarProperty Name="Code_publish" ColumnName="Code_publish" />
+                <ScalarProperty Name="image" ColumnName="image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Deliveries">
+            <EntityTypeMapping TypeName="DBBOOKSModel.Deliveries">
+              <MappingFragment StoreEntitySet="Deliveries">
+                <ScalarProperty Name="Code_delivery" ColumnName="Code_delivery" />
+                <ScalarProperty Name="Name_delivery" ColumnName="Name_delivery" />
+                <ScalarProperty Name="Name_company" ColumnName="Name_company" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="INN" ColumnName="INN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publishing_house">
+            <EntityTypeMapping TypeName="DBBOOKSModel.Publishing_house">
+              <MappingFragment StoreEntitySet="Publishing_house">
+                <ScalarProperty Name="Code_publish" ColumnName="Code_publish" />
+                <ScalarProperty Name="Publish" ColumnName="Publish" />
+                <ScalarProperty Name="City" ColumnName="City" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Purchases">
+            <EntityTypeMapping TypeName="DBBOOKSModel.Purchases">
+              <MappingFragment StoreEntitySet="Purchases">
+                <ScalarProperty Name="Code_purchase" ColumnName="Code_purchase" />
+                <ScalarProperty Name="Code_book" ColumnName="Code_book" />
+                <ScalarProperty Name="Date_order" ColumnName="Date_order" />
+                <ScalarProperty Name="Code_delivery" ColumnName="Code_delivery" />
+                <ScalarProperty Name="Type_purchase" ColumnName="Type_purchase" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="avt" FunctionName="Хранилище DBBOOKSModel.avt">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBBOOKSModel.avt_Result">
+                <ScalarProperty Name="name_author" ColumnName="name_author" />
+                <ScalarProperty Name="Title_book" ColumnName="Title_book" />
+                <ScalarProperty Name="Pages" ColumnName="Pages" />
+                <ScalarProperty Name="Publish" ColumnName="Publish" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

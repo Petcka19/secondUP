@@ -1,0 +1,39 @@
+﻿<Page x:Class="Общее_УП.Properties.AuthorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Общее_УП.Properties"
+      mc:Ignorable="d" d:DesignWidth="800"
+      Title="AuthorPage" Width="397" Height="300.796">
+    <Page.Resources>
+        <DataTemplate x:Key="DateTemplate" >
+            <TextBlock Text="{Binding Birthday, 
+               StringFormat={}{0:dd\.}{0:MM\.}{0:yyyy}}" 
+               VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </DataTemplate>
+        <DataTemplate x:Key="EditingDateTemplate">
+            <DatePicker SelectedDate="{Binding Birthday, Mode=TwoWay,
+     UpdateSourceTrigger=PropertyChanged}"  />
+        </DataTemplate>
+
+    </Page.Resources>
+    <Grid Background="#FF49B7EA">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,5" Width="397">Автор
+        <TextBox x:Name="textCh"  Width ="83"  Grid.Row="0" TextChanged="TextChang" Height="26" FontSize="13" VerticalAlignment="Center" />
+            <Button Style="{StaticResource StandardButton}"  Width ="60" FontSize="10" Click="AddButton_Click" > Добавить </Button>
+       <Button Style="{StaticResource StandardButton}"  Width ="60" FontSize="10" Click="UpdateButton_Click" > Изменить </Button>
+        <Button Style="{StaticResource StandardButton}"  Width ="60" FontSize="10" Click="DelButton_Click" > Удалить</Button></TextBlock>
+        <DataGrid Grid.Row="1" x:Name="dgAitor" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="271" Width="397" AutoGenerateColumns="False" IsReadOnly="False"  FontFamily="Modern No. 20" FontSize="15">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Автор" Binding="{Binding name_author, StringFormat=n0, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"  Width="*"/>
+                <DataGridTemplateColumn Header="Дата рождения"  Width="*" CellTemplate="{StaticResource DateTemplate}" CellEditingTemplate="{StaticResource EditingDateTemplate}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Page>

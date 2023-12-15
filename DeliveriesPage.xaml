@@ -1,0 +1,31 @@
+﻿<Page x:Class="Общее_УП.DeliveriesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Общее_УП"
+      mc:Ignorable="d" d:DesignWidth="800"
+      Title="DeliveriesPage" Width="397" Height="300.497">
+    <Grid Background="#FF49B7EA">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" FontSize="18" HorizontalAlignment="Center" Margin="0,6,0,0" Width="397" VerticalAlignment="Center">Доставка
+        <TextBox x:Name="textCh"  Width ="80" Grid.Row="0" TextChanged="TextChang" Height="26" FontSize="13" VerticalAlignment="Center" />
+            <Button Style="{StaticResource StandardButton}"  Width ="52" FontSize="10" Click="AddButton_Click" > Добавить </Button>
+       <Button Style="{StaticResource StandardButton}"  Width ="52" FontSize="10" Click="UpdateButton_Click" > Изменить </Button>
+        <Button Style="{StaticResource StandardButton}"  Width ="49" FontSize="10" Click="DelButton_Click" > Удалить</Button>
+        <Button Style="{StaticResource StandardButton}"  Width ="51" FontSize="10" Click="Button_Click" >Экспорт</Button></TextBlock>
+        <DataGrid Grid.Row="1" x:Name="dgPublish" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="270" Width="397" AutoGenerateColumns="False" IsReadOnly="False"  FontFamily="Modern No. 20" FontSize="12">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО доставщика" Binding="{Binding Name_delivery, StringFormat=n0, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"  Width="*"/>
+                <DataGridTextColumn Header="Название компании" Binding="{Binding Name_company, StringFormat=n0, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"  Width="*"/>
+                <DataGridTextColumn Header="Адрес" Binding="{Binding Address, StringFormat=n0, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"  Width="*"/>
+                <DataGridTextColumn Header="Номер телефона" Binding="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"  Width="*"/>
+                <DataGridTextColumn Header="ИНН" Binding="{Binding INN, StringFormat=n0, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"  Width="*"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

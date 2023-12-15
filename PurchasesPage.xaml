@@ -1,0 +1,45 @@
+﻿<Page x:Class="Общее_УП.PurchasesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Общее_УП"
+      mc:Ignorable="d" d:DesignWidth="800"
+      Title="PurchasesPage" Width="393" Height="302.087">
+    <Page.Resources>
+        <DataTemplate x:Key="DateTemplate" >
+            <TextBlock Text="{Binding Date_order, 
+               StringFormat={}{0:dd\.}{0:MM\.}{0:yyyy}}" 
+               VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </DataTemplate>
+        <DataTemplate x:Key="EditingDateTemplate">
+            <DatePicker SelectedDate="{Binding Date_order, Mode=TwoWay,
+     UpdateSourceTrigger=PropertyChanged}"  />
+        </DataTemplate>
+    </Page.Resources>
+    <Grid Background="#FF49B7EA">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" FontSize="18" HorizontalAlignment="Center" Width="393"><Run Text="Доставка "/><InlineUIContainer>
+                <TextBox x:Name="textCh"  Width ="76" TextChanged="TextChang" Height="26" FontSize="13" VerticalAlignment="Center" />
+            </InlineUIContainer><Run Text=" "/><InlineUIContainer>
+                <Button Style="{StaticResource StandardButton}"  Width ="60" FontSize="10" Click="AddButton_Click" Content="Добавить" />
+            </InlineUIContainer><Run Text=" "/><InlineUIContainer>
+                <Button Style="{StaticResource StandardButton}"  Width ="60" FontSize="10" Click="UpdateButton_Click" Content="Изменить" />
+            </InlineUIContainer><Run Text=" "/><InlineUIContainer>
+                <Button Style="{StaticResource StandardButton}"  Width ="60" FontSize="10" Click="DelButton_Click" Content="Удалить" />
+            </InlineUIContainer></TextBlock>
+        <DataGrid Grid.Row="1" x:Name="dgPublish" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="270" Width="395" AutoGenerateColumns="False" IsReadOnly="False"  FontFamily="Modern No. 20" FontSize="12" Margin="-2,0,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название книги" Binding="{Binding Name_book}"  Width="*"/>
+                <DataGridTextColumn Header="Название компании" Binding="{Binding Name_del}"  Width="*"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding Type_purchase, StringFormat=n0, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"  Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Cost, StringFormat=n0, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"  Width="*"/>
+                <DataGridTextColumn Header="Количество" Binding="{Binding Amount, StringFormat=n0, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"  Width="*"/>
+                <DataGridTemplateColumn Header="Дата заказа"  Width="*" CellTemplate="{StaticResource DateTemplate}" CellEditingTemplate="{StaticResource EditingDateTemplate}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
